@@ -52,7 +52,7 @@ export default function Header() {
             <button onClick={() => scrollTo("hero")} className="hover:text-[#fdfaf5] transition-colors">Inicio</button>
             <button onClick={() => scrollTo("about")} className="hover:text-[#fdfaf5] transition-colors">Nosotros</button>
             <button onClick={() => scrollTo("menu")} className="hover:text-[#fdfaf5] transition-colors">Menú</button>
-            <button onClick={() => setLoginOpen(true)} className="hover:text-[#fdfaf5] transition-colors">Admin</button>
+            <button onClick={() => scrollTo("newsletter")} className="hover:text-[#fdfaf5] transition-colors">Noticias</button>
             <button
               onClick={() => setFormOpen(true)}
               className="px-5 py-2.5 bg-[#fdfaf5] text-[#8c5a3c] rounded-md font-semibold hover:bg-[#fdfaf5]/90 transition-all duration-300 shadow-sm"
@@ -75,7 +75,7 @@ export default function Header() {
             <button onClick={() => scrollTo("hero")} className="text-left hover:text-[#fdfaf5]">Inicio</button>
             <button onClick={() => scrollTo("about")} className="text-left hover:text-[#fdfaf5]">Nosotros</button>
             <button onClick={() => scrollTo("menu")} className="text-left hover:text-[#fdfaf5]">Menú</button>
-            <button onClick={() => { setLoginOpen(true); setMenuOpen(false); }} className="text-left hover:text-[#fdfaf5]">Admin</button>
+            <button onClick={() => { scrollTo("newsletter"); }} className="text-left hover:text-[#fdfaf5]">Noticias</button>
             <button
               onClick={() => { setFormOpen(true); setMenuOpen(false); }}
               className="text-left text-[#fdfaf5] font-semibold"
