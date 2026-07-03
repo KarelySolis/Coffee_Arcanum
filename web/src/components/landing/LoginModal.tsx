@@ -44,7 +44,8 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
       router.push("/admin");
     } catch (err: any) {
       if (err.response?.status === 401 || err.response?.status === 422) {
-        setError("Usuario o contraseña incorrectos.");
+        setError("No es un usuario válido.");
+        alert("No es un usuario válido.");
       } else {
         setError("Error al iniciar sesión. Inténtelo de nuevo.");
       }

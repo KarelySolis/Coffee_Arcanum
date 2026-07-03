@@ -10,3 +10,7 @@ class NewsletterResponseDTO(BaseModel):
     Email: str
 
     model_config = {"from_attributes": True}
+
+
+class NewsletterUpdateDTO(BaseModel):
+    Email: EmailStr

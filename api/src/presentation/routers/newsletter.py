@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.infrastructure.database import get_db
 from src.infrastructure.repositories import NewsletterRepositoryImpl
 from src.application.services import NewsletterService
-from src.application.dtos import NewsletterCreateDTO
+from src.application.dtos import NewsletterCreateDTO, NewsletterUpdateDTO
 from src.presentation.responses import success_response, paginated_response, error_response
 from src.domain.exceptions import NotFoundError
 
@@ -50,5 +50,14 @@ async def create_newsletter(
 async def delete_newsletter(id: int, service: NewsletterService = Depends(get_service)):
     try:
         await service.delete(id)
+    except NotFoundError as e:
+        return error_response("NOT_FOUND", str(e), status.HTTP_404_NOT_FOUND)
+
+
+@router.put("/{id}")
+async def update_newsletter(id: int, dto: NewsletterUpdateDTO, service: NewsletterService = Depends(get_service)):
+    try:
+        item = await service.update(id, dto)
+        return success_response(item)
     except NotFoundError as e:
         return error_response("NOT_FOUND", str(e), status.HTTP_404_NOT_FOUND)
