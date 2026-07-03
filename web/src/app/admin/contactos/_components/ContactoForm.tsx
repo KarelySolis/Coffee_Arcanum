@@ -32,38 +32,38 @@ export default function ContactoForm({ initial, onSave, onClose }: Props) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-      <div className="bg-stone-800 border border-stone-700 rounded-2xl p-6 w-full max-w-md shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#3a2a1a]/45 backdrop-blur-sm p-4">
+      <div className="bg-[#fdfaf5] border border-[#8c5a3c]/20 rounded-2xl p-6 w-full max-w-md shadow-2xl text-[#3a2a1a]">
         <div className="flex justify-between items-center mb-5">
-          <h2 className="text-stone-100 font-bold text-lg">{initial ? "Editar Contacto" : "Nuevo Contacto"}</h2>
-          <button onClick={onClose} className="text-stone-400 hover:text-stone-200 text-xl">✕</button>
+          <h2 className="text-[#8c5a3c] font-serif font-bold text-xl">{initial ? "Editar Contacto" : "Nuevo Contacto"}</h2>
+          <button onClick={onClose} className="text-[#5c4a3a] hover:text-[#8c5a3c] text-xl transition-colors">✕</button>
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div>
-            <label className="text-stone-400 text-sm mb-1 block">Nombre</label>
+          <div className="flex flex-col gap-1">
+            <label className="text-[#8c5a3c] text-xs font-semibold uppercase tracking-wider">Nombre</label>
             <input type="text" required value={form.Nombre}
               onChange={e => setForm({ ...form, Nombre: e.target.value })}
-              className="w-full bg-stone-900 border border-stone-600 rounded-lg px-3 py-2.5 text-stone-100 focus:outline-none focus:border-amber-500"
+              className="w-full bg-[#fdfaf5] border border-[#3a2a1a]/20 rounded-lg px-4 py-2.5 text-sm text-[#3a2a1a] focus:outline-none focus:border-[#8c5a3c] focus:ring-1 focus:ring-[#8c5a3c] transition-all"
             />
           </div>
-          <div>
-            <label className="text-stone-400 text-sm mb-1 block">Email</label>
+          <div className="flex flex-col gap-1">
+            <label className="text-[#8c5a3c] text-xs font-semibold uppercase tracking-wider">Email</label>
             <input type="email" required value={form.Email}
               onChange={e => setForm({ ...form, Email: e.target.value })}
-              className="w-full bg-stone-900 border border-stone-600 rounded-lg px-3 py-2.5 text-stone-100 focus:outline-none focus:border-amber-500"
+              className="w-full bg-[#fdfaf5] border border-[#3a2a1a]/20 rounded-lg px-4 py-2.5 text-sm text-[#3a2a1a] focus:outline-none focus:border-[#8c5a3c] focus:ring-1 focus:ring-[#8c5a3c] transition-all"
             />
           </div>
-          <div>
-            <label className="text-stone-400 text-sm mb-1 block">Mensaje</label>
+          <div className="flex flex-col gap-1">
+            <label className="text-[#8c5a3c] text-xs font-semibold uppercase tracking-wider">Mensaje</label>
             <textarea required rows={3} value={form.Mensaje}
               onChange={e => setForm({ ...form, Mensaje: e.target.value })}
-              className="w-full bg-stone-900 border border-stone-600 rounded-lg px-3 py-2.5 text-stone-100 focus:outline-none focus:border-amber-500 resize-none"
+              className="w-full bg-[#fdfaf5] border border-[#3a2a1a]/20 rounded-lg px-4 py-2.5 text-sm text-[#3a2a1a] focus:outline-none focus:border-[#8c5a3c] focus:ring-1 focus:ring-[#8c5a3c] transition-all resize-none"
             />
           </div>
-          {error && <p className="text-red-400 text-sm">{error}</p>}
+          {error && <p className="text-red-600 text-sm font-medium">{error}</p>}
           <div className="flex gap-3 justify-end mt-2">
-            <button type="button" onClick={onClose} className="px-4 py-2 bg-stone-700 text-stone-200 rounded-lg hover:bg-stone-600 transition">Cancelar</button>
-            <button type="submit" disabled={saving} className="px-4 py-2 bg-amber-500 text-stone-950 rounded-lg font-semibold hover:bg-amber-400 transition disabled:opacity-50">
+            <button type="button" onClick={onClose} className="px-5 py-2.5 border border-[#3a2a1a]/20 text-[#3a2a1a] rounded-lg font-semibold hover:bg-[#3a2a1a]/5 transition-colors text-sm">Cancelar</button>
+            <button type="submit" disabled={saving} className="px-5 py-2.5 bg-[#8c5a3c] text-[#fdfaf5] rounded-lg font-semibold hover:bg-[#7a4e34] transition-colors disabled:opacity-50 text-sm shadow-md">
               {saving ? "Guardando..." : "Guardar"}
             </button>
           </div>

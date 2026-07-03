@@ -19,14 +19,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (!authorized) {
     return (
-      <div className="flex min-h-screen bg-stone-950 items-center justify-center text-stone-100">
-        <p className="text-stone-400 font-light">Verificando acceso...</p>
+      <div className="flex min-h-screen bg-[#fdfaf5] items-center justify-center text-[#3a2a1a]">
+        <p className="text-[#5c4a3a] font-light">Verificando acceso...</p>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen bg-stone-950">
+    <div className="flex min-h-screen bg-[#fdfaf5] text-[#3a2a1a]">
       <Sidebar />
       <main className="flex-1 p-8 overflow-y-auto">{children}</main>
     </div>

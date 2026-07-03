@@ -41,3 +41,11 @@ class NewsletterRepositoryImpl(INewsletterRepository):
         model = await self._session.get(NewsletterModel, id)
         await self._session.delete(model)
         await self._session.flush()
+
+    async def update(self, newsletter: Newsletter) -> Newsletter:
+        model = await self._session.get(NewsletterModel, newsletter.NewsletterId)
+        if model:
+            model.Email = newsletter.Email
+            await self._session.flush()
+            await self._session.refresh(model)
+        return self._to_entity(model)

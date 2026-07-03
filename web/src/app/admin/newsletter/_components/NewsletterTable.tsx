@@ -21,6 +21,7 @@ export default function NewsletterTable({ initialData, initialMeta }: Props) {
   const [loading, setLoading] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [editing, setEditing] = useState<Newsletter | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
@@ -38,14 +39,28 @@ export default function NewsletterTable({ initialData, initialMeta }: Props) {
   };
 
   const handleSave = async (values: NewsletterCreate) => {
-    await api.post("/api/v1/newsletter/", values);
+    if (editing) {
+      if (userRole === "Cajero") {
+        alert("No tienes permisos para editar registros.");
+        return;
+      }
+      await api.put(`/api/v1/newsletter/${editing.NewsletterId}`, values);
+    } else {
+      await api.post("/api/v1/newsletter/", values);
+    }
     setFormOpen(false);
+    setEditing(null);
     await fetchPage(page);
     router.refresh();
   };
 
   const handleDelete = async () => {
     if (!deleteId) return;
+    if (userRole === "Cajero") {
+      alert("No tienes permisos para eliminar registros.");
+      setDeleteId(null);
+      return;
+    }
     await api.delete(`/api/v1/newsletter/${deleteId}`);
     setDeleteId(null);
     await fetchPage(page);
@@ -57,19 +72,19 @@ export default function NewsletterTable({ initialData, initialMeta }: Props) {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-stone-100">Newsletter</h1>
+        <h1 className="text-3xl font-bold font-serif text-[#8c5a3c]">Newsletter</h1>
         <button
-          onClick={() => setFormOpen(true)}
-          className="px-4 py-2 bg-amber-500 text-stone-950 rounded-lg font-semibold hover:bg-amber-400 transition"
+          onClick={() => { setEditing(null); setFormOpen(true); }}
+          className="px-4 py-2 bg-[#8c5a3c] text-[#fdfaf5] rounded-lg font-semibold hover:bg-[#7a4e34] transition shadow-md"
         >
           + Suscribir
         </button>
       </div>
 
-      <div className="bg-stone-900 rounded-xl border border-stone-800 overflow-hidden">
+      <div className="bg-white rounded-xl border border-[#8c5a3c]/15 shadow-md overflow-hidden">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-stone-800 text-stone-400">
+            <tr className="border-b border-[#3a2a1a]/10 text-[#8c5a3c] bg-[#3a2a1a]/2 font-semibold">
               <th className="px-4 py-3 text-left">ID</th>
               <th className="px-4 py-3 text-left">Email</th>
               {userRole !== "Cajero" && <th className="px-4 py-3 text-left">Acciones</th>}
@@ -77,16 +92,24 @@ export default function NewsletterTable({ initialData, initialMeta }: Props) {
           </thead>
           <tbody>
             {loading ? (
-              <tr><td colSpan={userRole === "Cajero" ? 2 : 3} className="px-4 py-8 text-center text-stone-500">Cargando...</td></tr>
+              <tr><td colSpan={userRole === "Cajero" ? 2 : 3} className="px-4 py-8 text-center text-[#5c4a3a]">Cargando...</td></tr>
             ) : data.length === 0 ? (
-              <tr><td colSpan={userRole === "Cajero" ? 2 : 3} className="px-4 py-8 text-center text-stone-500">Sin registros</td></tr>
+              <tr><td colSpan={userRole === "Cajero" ? 2 : 3} className="px-4 py-8 text-center text-[#5c4a3a]">Sin registros</td></tr>
             ) : data.map(n => (
-              <tr key={n.NewsletterId} className="border-b border-stone-800 hover:bg-stone-800/50 transition">
-                <td className="px-4 py-3 text-stone-400">{n.NewsletterId}</td>
-                <td className="px-4 py-3 text-stone-100">{n.Email}</td>
+              <tr key={n.NewsletterId} className="border-b border-[#3a2a1a]/10 hover:bg-[#3a2a1a]/2 transition">
+                <td className="px-4 py-3 text-[#5c4a3a]">{n.NewsletterId}</td>
+                <td className="px-4 py-3 text-[#3a2a1a]">{n.Email}</td>
                 {userRole !== "Cajero" && (
                   <td className="px-4 py-3">
-                    <button onClick={() => setDeleteId(n.NewsletterId)} className="px-3 py-1 bg-red-600/20 text-red-400 rounded hover:bg-red-600/40 transition text-xs">Eliminar</button>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => { setEditing(n); setFormOpen(true); }}
+                        className="px-3 py-1 border border-[#3a2a1a]/25 text-[#3a2a1a] rounded hover:bg-[#3a2a1a]/5 transition text-xs"
+                      >
+                        Editar
+                      </button>
+                      <button onClick={() => setDeleteId(n.NewsletterId)} className="px-3 py-1 bg-red-50 text-red-700 border border-red-200 rounded hover:bg-red-100 transition text-xs">Eliminar</button>
+                    </div>
                   </td>
                 )}
               </tr>
@@ -99,8 +122,9 @@ export default function NewsletterTable({ initialData, initialMeta }: Props) {
 
       {formOpen && (
         <NewsletterForm
+          initial={editing}
           onSave={handleSave}
-          onClose={() => setFormOpen(false)}
+          onClose={() => { setFormOpen(false); setEditing(null); }}
         />
       )}
 

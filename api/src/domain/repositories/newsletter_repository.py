@@ -19,3 +19,7 @@ class INewsletterRepository(ABC):
     @abstractmethod
     async def delete(self, id: int) -> None:
         pass
+
+    @abstractmethod
+    async def update(self, newsletter: Newsletter) -> Newsletter:
+        pass

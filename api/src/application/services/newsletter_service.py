@@ -2,7 +2,7 @@ from typing import List, Tuple
 from src.domain.entities import Newsletter
 from src.domain.repositories import INewsletterRepository
 from src.domain.exceptions import NotFoundError
-from src.application.dtos import NewsletterCreateDTO, NewsletterResponseDTO
+from src.application.dtos import NewsletterCreateDTO, NewsletterResponseDTO, NewsletterUpdateDTO
 
 
 class NewsletterService:
@@ -29,3 +29,11 @@ class NewsletterService:
         if not existing:
             raise NotFoundError("Newsletter", id)
         await self._repo.delete(id)
+
+    async def update(self, id: int, dto: NewsletterUpdateDTO) -> NewsletterResponseDTO:
+        existing = await self._repo.get_by_id(id)
+        if not existing:
+            raise NotFoundError("Newsletter", id)
+        entity = Newsletter(NewsletterId=id, Email=dto.Email)
+        updated = await self._repo.update(entity)
+        return NewsletterResponseDTO.model_validate(updated.__dict__)
