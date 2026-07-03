@@ -1,0 +1,3 @@
+from .contacto_repository import IContactoRepository
+from .newsletter_repository import INewsletterRepository
+from .usuario_repository import IUsuarioRepository
